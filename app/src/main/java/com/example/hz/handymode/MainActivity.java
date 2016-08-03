@@ -1,16 +1,23 @@
 package com.example.hz.handymode;
 
 import android.app.Activity;
+import android.app.Service;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+    private static final String TAG = "MainActivity";
     private Paint mRipplePaint;
     private TextView mLeftTV,mCenterTV,mRightTV;
     private  KeyButtonRipple mLeftKey,mCenterKey,mRightKey;
@@ -49,6 +56,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        Display display = ((WindowManager)getSystemService(Service.WINDOW_SERVICE)).getDefaultDisplay();
+        Point po = new Point();
+        display.getRealSize(po);
+        Log.d(TAG,"onCreate-- 宽度po.x="+po.x+"高度po.y="+po.y );
 
     }
 
@@ -73,4 +84,21 @@ public class MainActivity extends Activity {
         mLeftKey.setPressedSoftware(pressed);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        Display display = ((WindowManager)getSystemService(Service.WINDOW_SERVICE)).getDefaultDisplay();
+        Point po = new Point();
+        display.getRealSize(po);
+        Log.d(TAG,"onConfigurationChanged-- 宽度po.x="+po.x+"高度po.y="+po.y );
+
+    }
+
+    public void PrintScreenWidthHeight(){
+        Display display = ((WindowManager)getSystemService(Service.WINDOW_SERVICE)).getDefaultDisplay();
+        Point po = new Point();
+        display.getRealSize(po);
+        Log.d(TAG,"宽度po.x="+po.x+"高度po.y="+po.y );
+    }
 }
